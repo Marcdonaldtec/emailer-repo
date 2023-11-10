@@ -10,7 +10,7 @@ setup(
             'my-emailer=my_emailer.emailer:main',
         ],
     },
-    author='Your Name',
+    author='Marc Donald Omeus and Denes Jean Baptiste',
     author_email='your.email@example.com',
     description='A simple emailer library',
     long_description=open('README.md').read(),
