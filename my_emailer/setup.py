@@ -11,14 +11,9 @@ setup(
         ],
     },
     author='Marc Donald Omeus and Denes Jean Baptiste',
-    author_email='your.email@example.com',
     description='A simple emailer library',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/Marcdonaldtec/emailer-repo',
-    classifiers=[
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-    ],
+    url='https://github.com/Marcdonaldtec/emailer-repo'
+    
 )
