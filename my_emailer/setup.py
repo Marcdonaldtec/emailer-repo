@@ -4,7 +4,9 @@ setup(
     name='my-emailer',
     version='0.1.0',
     packages=find_packages(),
-    install_python_requires = '>=3.10',
+    install_requires =['>=3.10',
+                       'smtplib'
+                      ],
     entry_points={
         'console_scripts': [
             'my-emailer=my_emailer.emailer:main',
