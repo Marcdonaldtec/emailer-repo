@@ -1,29 +1,39 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from validate_email import validate_email
+
+def setup_email_server(server, port, sender_email, password):
+    return {'server': server, 'port': port, 'sender_email': sender_email, 'password': password}
+
+def is_valid_email(email):
+    return validate_email(email, verify=True)
+
+def send_email(recipient, subject, body, server=None):
+    if server is None:
+        raise ValueError("Sèvè imel la dwe konfigire avan ou voye yon imèl.")
 
 
-def send_email(subject, body, to_email):
-    sender_email = 'your_email@gmail.com'
-    sender_password = 'your_email_password'
-    message = MIMEMultipart()
-    message['From'] = sender_email
-    message['To'] = to_email
-    message['Subject'] = subject
-    message.attach(MIMEText(body, 'plain'))
-    try:
-        with smtplib.SMTP('smtp.your_email_provider.com', 587) as server:
-            server.starttls()
-            server.login(sender_email, sender_password)
-            server.sendmail(sender_email, to_email, message.as_string())
-        print(f"Email sent successfully to {to_email}")
-    except Exception as e:
-        print(f"Error sending email: {e}")
+    if not is_valid_email(recipient):
+        raise ValueError("Imèl sa pa valide.")
 
+    sender_email = server['sender_email']
+    password = server['password']
+    server_addr = server['server']
+    port = server['port']
 
-if __name__ == "__main__":
-    email_subject = "Test Subject"
-    email_body = "This is a test email body."
-    recipient_email = "recipient@example.com"
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = recipient
+    msg['Subject'] = subject
 
-    send_email(email_subject, email_body, recipient_email)
+    msg.attach(MIMEText(body, 'plain'))
+
+    with smtplib.SMTP(server_addr, port) as server:
+        server.starttls()
+        server.login(sender_email, password)
+        server.sendmail(sender_email, recipient, msg.as_string())
+
+server = setup_email_server(server="smtp.example.com", port=587, sender_email="your_email@example.com", password="votre_modpas_sekrè")
+send_email("destinatè@example.com", "Sijè Imel la", "Imel la", server=server)
+
