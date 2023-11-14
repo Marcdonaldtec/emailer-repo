@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-# our first pro
+# our first project
 setup(
     name='my-emailer',
     version='0.1.0',
