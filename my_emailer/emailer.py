@@ -1,39 +1,49 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from validate_email import validate_email
+from validate_email_address import validate_email
 
-def setup_email_server(server, port, sender_email, password):
-    return {'server': server, 'port': port, 'sender_email': sender_email, 'password': password}
+class EmailSender:
+    def __init__(self, server, port, sender_email, password):
+        self.server = server
+        self.port = port
+        self.sender_email = sender_email
+        self.password = password
 
-def is_valid_email(email):
-    return validate_email(email, verify=True)
+    def setup_email_server(self):
+        return {'server': self.server, 'port': self.port, 'sender_email': self.sender_email, 'password': self.password}
 
-def send_email(recipient, subject, body, server=None):
-    if server is None:
-        raise ValueError("Sèvè imel la dwe konfigire avan ou voye yon imèl.")
+    @staticmethod
+    def is_valid_email(email):
+        try:
+            result = validate_email(email, verify=False)
+            return result and '@' in email
+        except Exception as e:
+            print(f"Error validating email: {e}")
+        return False
 
+    def send_email(self, recipient, subject, body):
+        if not self.is_valid_email(recipient):
+            raise ValueError("Imèl sa pa valide.")
 
-    if not is_valid_email(recipient):
-        raise ValueError("Imèl sa pa valide.")
+        server_info = self.setup_email_server()
 
-    sender_email = server['sender_email']
-    password = server['password']
-    server_addr = server['server']
-    port = server['port']
+        msg = MIMEMultipart()
+        msg['From'] = self.sender_email
+        msg['To'] = recipient
+        msg['Subject'] = subject
 
-    msg = MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = recipient
-    msg['Subject'] = subject
+        msg.attach(MIMEText(body, 'plain'))
 
-    msg.attach(MIMEText(body, 'plain'))
+        with smtplib.SMTP(self.server, self.port) as email_server:
+            email_server.starttls()
+            email_server.login(self.sender_email, self.password)
+            email_server.sendmail(self.sender_email, recipient, msg.as_string())
 
-    with smtplib.SMTP(server_addr, port) as server:
-        server.starttls()
-        server.login(sender_email, password)
-        server.sendmail(sender_email, recipient, msg.as_string())
+recipient_email = input("Entrez l'adresse email du destinataire : ")
+email_subject = input("Entrez le sujet de l'email : ")
+email_body = input("Entrez le contenu de l'email : ")
 
-server = setup_email_server(server="smtp.example.com", port=587, sender_email="your_email@example.com", password="votre_modpas_sekrè")
-send_email("destinatè@example.com", "Sijè Imel la", "Imel la", server=server)
+emailer = EmailSender(server="smtp.gmail.com", port=587, sender_email="marcdonaldtech40@gmail.com", password="msbx kmxx omit uthm ")
 
+emailer.send_email(recipient=recipient_email, subject=email_subject, body=email_body)
