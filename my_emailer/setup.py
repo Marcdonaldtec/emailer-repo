@@ -11,7 +11,7 @@ setup(
             'my-emailer=my_emailer.emailer:main',
         ],
     },
-    author='Marc Donald Omeus and Denes Jean Baptiste',
+    author='Marc-Donald Omeus and Denes Jean Baptiste',
 
     description='A simple emailer library',
     long_description=open('README.md').read(),
