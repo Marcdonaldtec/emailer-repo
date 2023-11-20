@@ -45,5 +45,4 @@ email_subject = input("Entrez le sujet de l'email : ")
 email_body = input("Entrez le contenu de l'email : ")
 
 emailer = EmailSender(server="smtp.gmail.com", port=587, sender_email="marcdonaldtech40@gmail.com", password="msbx kmxx omit uthm ")
-
 emailer.send_email(recipient=recipient_email, subject=email_subject, body=email_body)
