@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from validate_email_address import validate_email
-
+# class
 class EmailSender:
     def __init__(self, server, port, sender_email, password):
         self.server = server

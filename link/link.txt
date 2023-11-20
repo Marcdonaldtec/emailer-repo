@@ -1,1 +1,0 @@
-https://pypi.org/project/my-emailer/0.1.0/
