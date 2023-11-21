@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from validate_email_address import validate_email
-# class
+# class sender emailler
 class EmailSender:
     def __init__(self, server, port, sender_email, password):
         self.server = server
@@ -12,7 +12,7 @@ class EmailSender:
 
     def setup_email_server(self):
         return {'server': self.server, 'port': self.port, 'sender_email': self.sender_email, 'password': self.password}
-
+# constructeur
     @staticmethod
     def is_valid_email(email):
         try:
